@@ -29,7 +29,7 @@ public class Join extends AppCompatActivity{
     EditText ID, PW, NickName, Phone,PW_check;
 
     int cnt=0;
-    boolean check;
+    boolean check=true;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -60,6 +60,7 @@ public class Join extends AppCompatActivity{
 
 
         //아이디 중복 확인
+        /*
         id_check.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -68,6 +69,29 @@ public class Join extends AppCompatActivity{
                 }else{
                     Toast.makeText(getApplicationContext(),"사용 가능한 ID입니다",Toast.LENGTH_SHORT).show();
                 }
+            }
+        });*/
+        id_check.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                cnt=1;
+                databaseReference.child("userAccount").child(ID.getText().toString()).child("id").addListenerForSingleValueEvent(new ValueEventListener() {
+                    @Override
+                    public void onDataChange(@NonNull DataSnapshot snapshot) {
+                        String value=snapshot.getValue(String.class);
+                        if(value!=null){ //이미 존재
+                            Toast.makeText(getApplicationContext(),"이미 존재하는 ID입니다",Toast.LENGTH_SHORT).show();
+                        }else{
+                            Toast.makeText(getApplicationContext(),"사용 가능한 ID입니다",Toast.LENGTH_SHORT).show();
+                        }
+                    }
+
+                    @Override
+                    public void onCancelled(@NonNull DatabaseError error) {
+                        //디비를 가져오던 중 에러 발생 시...
+                    }
+                });
+
             }
         });
 
@@ -93,7 +117,6 @@ public class Join extends AppCompatActivity{
                             if(id_duplicate_check()==false){
                                 Toast.makeText(getApplicationContext(),"이미 존재하는 ID입니다.",Toast.LENGTH_SHORT).show();
                             }
-
                             else {
                                 signUp(style); // signup success
                                 Toast.makeText(getApplicationContext(), "회원가입 성공", Toast.LENGTH_LONG).show();
@@ -128,7 +151,7 @@ public class Join extends AppCompatActivity{
         else return true;
     }
 
-    // id중복확인 함수
+    // id 중복확인 함수
     public boolean id_duplicate_check(){
         cnt=1;
         databaseReference.child("userAccount").child(ID.getText().toString()).child("id").addListenerForSingleValueEvent(new ValueEventListener() {
@@ -136,9 +159,9 @@ public class Join extends AppCompatActivity{
             public void onDataChange(@NonNull DataSnapshot snapshot) {
                 String value=snapshot.getValue(String.class);
                 if(value!=null){ //이미 존재
-                    check=false;
+                    check = false;
                 }else{
-                    check=true;
+                    check = true;
                 }
             }
 
