@@ -21,29 +21,31 @@ public class SearchId extends AppCompatActivity {
     private DatabaseReference databaseReference= FirebaseDatabase.getInstance().getReference();
 
     EditText ID_text;
-    Button find_button;
+    Button find_id_button;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_search_id);
 
-        ID_text=(EditText)findViewById(R.id.EditText);
-        find_button=(Button)findViewById(R.id.find_pw_button);
+        ID_text=(EditText)findViewById(R.id.id_text);
+        find_id_button=(Button)findViewById(R.id.find_id_button);
 
-        find_button.setOnClickListener(new View.OnClickListener() {
+        find_id_button.setOnClickListener(new View.OnClickListener() {
 
             @Override
             public void onClick(View v) {
-                String strID=ID_text.getText().toString(); //
-                databaseReference.child("userAccount").child(strID).child("id").addListenerForSingleValueEvent(new ValueEventListener() { //
-                    @Override
+                String strPhone=ID_text.getText().toString(); //
+                databaseReference.child("userAccount").orderByChild("phone").equalTo(strPhone).addListenerForSingleValueEvent(new ValueEventListener() { //                        @Override
                     public void onDataChange(@NonNull DataSnapshot snapshot) {
-                        String value=snapshot.getValue(String.class); //
-                        if(value!=null){
-                            Toast.makeText(getApplicationContext(),"아이디는 "+value+"입니다",Toast.LENGTH_SHORT).show();
-                        }else{
-                            Toast.makeText(getApplicationContext(),"전화번호를 확인해주세요",Toast.LENGTH_SHORT).show();
+                        for(DataSnapshot datas: snapshot.getChildren()){
+                            String keys=datas.getKey();
+                            if(keys!=null) {
+                                Toast.makeText(getApplicationContext(), "아이디는 " + keys + "입니다", Toast.LENGTH_SHORT).show();
+                            }else{
+                                Toast.makeText(getApplicationContext(),"전화번호를 확인해주세요",Toast.LENGTH_SHORT).show();
+
+                            }
                         }
                     }
 

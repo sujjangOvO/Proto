@@ -17,13 +17,14 @@
         android:src="@drawable/logo"/>
 
     <!--아이디-->
+
     <com.google.android.material.textfield.TextInputLayout
         style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox"
         android:layout_width="match_parent"
         android:layout_height="wrap_content">
 
         <com.google.android.material.textfield.TextInputEditText
-            android:id="@+id/EditText"
+            android:id="@+id/id_text"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_marginLeft="50dp"
@@ -31,12 +32,14 @@
             android:layout_marginRight="50dp"
             android:layout_marginBottom="15dp"
             android:hint="전화번호를 입력하세요" />
+
+
+
     </com.google.android.material.textfield.TextInputLayout>
 
-    <!--비밀번호-->
 
     <Button
-        android:id="@+id/find_pw_button"
+        android:id="@+id/find_id_button"
         android:layout_width="300dp"
         android:layout_height="wrap_content"
         android:layout_gravity="center"
@@ -48,6 +51,5 @@
         android:textStyle="bold"
         app:backgroundTint="@null" />
 
-    <!--아이디, 비번 찾기-->
 
 </androidx.appcompat.widget.LinearLayoutCompat>
