@@ -81,9 +81,8 @@
                 android:id="@+id/setting"
                 android:layout_width="35dp"
                 android:layout_height="35dp"
-                android:background="@drawable/settings"
                 android:layout_alignParentRight="true"
-                />
+                android:background="@drawable/settings" />
 
 
         </RelativeLayout>

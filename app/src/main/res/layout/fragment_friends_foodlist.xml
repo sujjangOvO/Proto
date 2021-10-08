@@ -9,9 +9,10 @@
 
     <!--모든 게시물을 볼 수 있는 페이지-->
     <LinearLayout
-        android:layout_width="match_parent"
+        android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:orientation="horizontal"
+        android:layout_gravity="right"
         android:layout_marginTop="10dp">
 
         <Spinner
@@ -26,7 +27,7 @@
 
 
     <androidx.recyclerview.widget.RecyclerView
-        android:id="@+id/rv"
+        android:id="@+id/rv2"
         android:layout_width="match_parent"
         android:layout_height="450dp"
         android:layout_weight="1"
