@@ -6,7 +6,6 @@ public class UserAccount {
     private String pw;
     private String nickname;
     private String phone;
-    private String style;
 
     public UserAccount(){}
 
@@ -32,15 +31,11 @@ public class UserAccount {
 
     public void setPhone(String phone){ this.phone = phone; }
 
-    public String getStyle(){ return style;}
 
-    public void setStyle(String style){ this.style = style; }
-
-    public UserAccount(String id, String pw, String nickname, String phone, String style){
+    public UserAccount(String id, String pw, String nickname, String phone){
         this.id=id;
         this.pw=pw;
         this.nickname=nickname;
         this.phone=phone;
-        this.style=style;
     }
 }
