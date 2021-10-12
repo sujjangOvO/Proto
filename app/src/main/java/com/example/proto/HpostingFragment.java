@@ -12,14 +12,17 @@ import android.view.View;
 import android.view.ViewGroup;
 
 import java.util.ArrayList;
-import java.util.List;
 
-public class HlocationFragment extends Fragment {
 
-    private ArrayList<HlocationItem> arrayList=new ArrayList<>();
+public class HpostingFragment extends Fragment {
+
+    private ArrayList<HpostingItem> arrayList=new ArrayList<>();
     private RecyclerView recyclerView;
-    private HlocationAdapter hlocationAdapter;
+    private HpostingAdapter hpostingAdapter;
 
+    public HpostingFragment() {
+        // Required empty public constructor
+    }
 
     @Override
     public void onCreate(Bundle savedInstanceState) {
@@ -29,22 +32,23 @@ public class HlocationFragment extends Fragment {
 
     private void prepareData(){
         for(int i=0;i<10;i++){
-            arrayList.add(new HlocationItem("Store name","Store location",R.drawable.location));
+            arrayList.add(new HpostingItem("Title","location","Contents Contents Contents\nContents Contents Contents",R.drawable.ic_launcher_foreground));
         }
     }
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
-        View v=inflater.inflate(R.layout.fragment_hlocation,container,false);
-        recyclerView=(RecyclerView) v.findViewById(R.id.rv_hlocation);
+        // Inflate the layout for this fragment
+        View v= inflater.inflate(R.layout.fragment_hposting, container, false);
+        recyclerView=(RecyclerView)v.findViewById(R.id.rv_hposting);
         recyclerView.setHasFixedSize(true);
-        hlocationAdapter=new HlocationAdapter(arrayList);
+        hpostingAdapter=new HpostingAdapter(arrayList);
 
         RecyclerView.LayoutManager layoutManager=new LinearLayoutManager(getActivity());
         recyclerView.setLayoutManager(layoutManager);
         recyclerView.setItemAnimator(new DefaultItemAnimator());
-        recyclerView.setAdapter(hlocationAdapter);
+        recyclerView.setAdapter(hpostingAdapter);
 
         return v;
     }

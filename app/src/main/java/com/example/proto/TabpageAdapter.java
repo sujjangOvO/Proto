@@ -8,7 +8,7 @@ import androidx.fragment.app.FragmentStatePagerAdapter;
 
 import java.util.ArrayList;
 
-public class TabpageAdapter extends FragmentPagerAdapter {
+public class TabpageAdapter extends FragmentStatePagerAdapter {
 
     private ArrayList<Fragment>fragmentList=new ArrayList<>();
     private ArrayList<String>title=new ArrayList<>();
@@ -16,15 +16,13 @@ public class TabpageAdapter extends FragmentPagerAdapter {
     public TabpageAdapter(@NonNull FragmentManager fm) {
         super(fm);
         fragmentList.add(new HaccountFragment());
-        fragmentList.add(new HfoodFragment());
         fragmentList.add(new HlocationFragment());
-        fragmentList.add(new HstoreFragment());
+        fragmentList.add(new HpostingFragment());
 
         // 탭 이름
         title.add("account");
-        title.add("food");
         title.add("location");
-        title.add("store");
+        title.add("posting");
     }
 
     @NonNull

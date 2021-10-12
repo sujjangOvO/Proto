@@ -3,6 +3,24 @@
   <component name="DesignSurface">
     <option name="filePathToZoomLevelMap">
       <map>
+        <entry key="..\:/Users/owner/Proto/app/src/main/res/drawable/edit_line.xml" value="0.13489583333333333" />
+        <entry key="..\:/Users/owner/Proto/app/src/main/res/layout/activity_search_pw.xml" value="0.1" />
+        <entry key="..\:/Users/owner/Proto/app/src/main/res/layout/fragment_friends_foodlist.xml" value="0.25" />
+        <entry key="..\:/Users/owner/Proto/app/src/main/res/layout/fragment_haccount.xml" value="0.12083333333333333" />
+        <entry key="..\:/Users/owner/Proto/app/src/main/res/layout/fragment_hlocation.xml" value="0.1213768115942029" />
+        <entry key="..\:/Users/owner/Proto/app/src/main/res/layout/fragment_hposting.xml" value="0.1213768115942029" />
+        <entry key="..\:/Users/owner/Proto/app/src/main/res/layout/fragment_list.xml" value="0.21920289855072464" />
+        <entry key="..\:/Users/owner/Proto/app/src/main/res/layout/fragment_locationdetail.xml" value="0.12135416666666667" />
+        <entry key="..\:/Users/owner/Proto/app/src/main/res/layout/fragment_my_page.xml" value="0.12135416666666667" />
+        <entry key="..\:/Users/owner/Proto/app/src/main/res/layout/fragment_posting.xml" value="0.21920289855072464" />
+        <entry key="..\:/Users/owner/Proto/app/src/main/res/layout/fragment_profile.xml" value="0.36614583333333334" />
+        <entry key="..\:/Users/owner/Proto/app/src/main/res/layout/fragment_search.xml" value="0.1" />
+        <entry key="..\:/Users/owner/Proto/app/src/main/res/layout/friends_foodlist_item.xml" value="0.25" />
+        <entry key="..\:/Users/owner/Proto/app/src/main/res/layout/friends_list.xml" value="0.12135416666666667" />
+        <entry key="..\:/Users/owner/Proto/app/src/main/res/layout/hlocation_item.xml" value="0.25" />
+        <entry key="..\:/Users/owner/Proto/app/src/main/res/layout/hposting_item.xml" value="0.25" />
+        <entry key="..\:/Users/owner/Proto/app/src/main/res/layout/list_item.xml" value="0.17603850050658562" />
+        <entry key="..\:/Users/owner/Proto/app/src/main/res/menu/menu_bottom.xml" value="0.36614583333333334" />
         <entry key="..\:/Users/pnk53/AndroidStudioProjects/Proto/app/src/main/res/layout/activity_join.xml" value="0.4" />
         <entry key="..\:/Users/pnk53/AndroidStudioProjects/Proto/app/src/main/res/layout/activity_login.xml" value="0.25364583333333335" />
         <entry key="..\:/Users/pnk53/AndroidStudioProjects/Proto/app/src/main/res/layout/activity_search_id.xml" value="0.4" />

@@ -95,7 +95,7 @@
 
             <!--맛집 추가하기 버튼-->
             <Button
-                android:id="@+id/add"
+                android:id="@+id/btn_post"
                 android:layout_width="130dp"
                 android:layout_height="50dp"
                 android:background="@drawable/my_page_button"
