@@ -3,25 +3,14 @@
   <component name="DesignSurface">
     <option name="filePathToZoomLevelMap">
       <map>
-        <entry key="..\:/Users/owner/Proto/app/src/main/res/drawable/edit_line.xml" value="0.38229166666666664" />
-        <entry key="..\:/Users/owner/Proto/app/src/main/res/drawable/edit_round.xml" value="0.38229166666666664" />
-        <entry key="..\:/Users/owner/Proto/app/src/main/res/drawable/ic_launcher_background.xml" value="0.13697916666666668" />
-        <entry key="..\:/Users/owner/Proto/app/src/main/res/layout/activity_login.xml" value="0.18" />
-        <entry key="..\:/Users/owner/Proto/app/src/main/res/layout/fragment_friends_foodlist.xml" value="0.36614583333333334" />
-        <entry key="..\:/Users/owner/Proto/app/src/main/res/layout/fragment_list.xml" value="0.36614583333333334" />
-        <entry key="..\:/Users/owner/Proto/app/src/main/res/layout/fragment_listdetail.xml" value="0.36614583333333334" />
-        <entry key="..\:/Users/owner/Proto/app/src/main/res/layout/fragment_my_page.xml" value="0.36614583333333334" />
-        <entry key="..\:/Users/owner/Proto/app/src/main/res/layout/fragment_posting.xml" value="0.22" />
-        <entry key="..\:/Users/owner/Proto/app/src/main/res/layout/friends_foodlist_item.xml" value="0.36614583333333334" />
-        <entry key="..\:/Users/owner/Proto/app/src/main/res/layout/friends_list.xml" value="0.36614583333333334" />
-        <entry key="..\:/Users/owner/Proto/app/src/main/res/layout/list_item.xml" value="0.36614583333333334" />
         <entry key="..\:/Users/pnk53/AndroidStudioProjects/Proto/app/src/main/res/layout/activity_join.xml" value="0.4" />
         <entry key="..\:/Users/pnk53/AndroidStudioProjects/Proto/app/src/main/res/layout/activity_login.xml" value="0.25364583333333335" />
-        <entry key="..\:/Users/pnk53/AndroidStudioProjects/Proto/app/src/main/res/layout/activity_search_id.xml" value="0.25364583333333335" />
+        <entry key="..\:/Users/pnk53/AndroidStudioProjects/Proto/app/src/main/res/layout/activity_search_id.xml" value="0.4" />
+        <entry key="..\:/Users/pnk53/AndroidStudioProjects/Proto/app/src/main/res/layout/activity_search_pw.xml" value="0.12916666666666668" />
       </map>
     </option>
   </component>
-  <component name="ProjectRootManager" version="2" languageLevel="JDK_11" default="true" project-jdk-name="1.8" project-jdk-type="JavaSDK">
+  <component name="ProjectRootManager" version="2" languageLevel="JDK_11" project-jdk-name="1.8" project-jdk-type="JavaSDK">
     <output url="file://$PROJECT_DIR$/build/classes" />
   </component>
   <component name="ProjectType">

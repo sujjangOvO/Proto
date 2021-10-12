@@ -25,10 +25,10 @@ public class Join extends AppCompatActivity{
     private FirebaseDatabase database=FirebaseDatabase.getInstance();
     private DatabaseReference databaseReference= FirebaseDatabase.getInstance().getReference();
 
-    Button id_check, end;
+    Button id_check, end, phone_check;
     EditText ID, PW, NickName, Phone,PW_check;
 
-    int cnt=0;
+    int cnt=0, cnt2=0;
     boolean check=true;
 
     @Override
@@ -43,17 +43,17 @@ public class Join extends AppCompatActivity{
         NickName = (EditText)findViewById(R.id.NickName);
         Phone=(EditText)findViewById(R.id.Phone);
         PW_check=(EditText)findViewById(R.id.PW_check);
+        phone_check=(Button)findViewById(R.id.phone_check);
 
 
-
+        /*
         //스피너
         Spinner spinner = (Spinner)findViewById(R.id.spinner);
         ArrayAdapter adapter = ArrayAdapter.createFromResource(this, R.array.arr, android.R.layout.simple_spinner_dropdown_item);
         adapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
         spinner.setAdapter(adapter); //어댑터에 연결
+        String style=spinner.getSelectedItem().toString();*/
 
-
-        String style=spinner.getSelectedItem().toString();
 
 
 
@@ -96,6 +96,39 @@ public class Join extends AppCompatActivity{
         });
 
 
+        // 전화번호 중복 확인 ( 확인해봐야함 )
+        phone_check.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+
+                if(ID.getText().toString().equals("") || ID.getText().toString() == null ){
+                    Toast.makeText(getApplicationContext(),"ID를 입력하세요.",Toast.LENGTH_SHORT).show();
+                }
+
+                else {
+                    cnt2 = 1;
+                    databaseReference.child("userAccount").child(ID.getText().toString()).child("phone").addListenerForSingleValueEvent(new ValueEventListener() {
+                        @Override
+                        public void onDataChange(@NonNull DataSnapshot snapshot) {
+                            String value = snapshot.getValue(String.class);
+                            if (value != null) { //이미 존재
+                                Toast.makeText(getApplicationContext(), "중복된 전화번호 입니다.", Toast.LENGTH_SHORT).show();
+                            } else {
+                                Toast.makeText(getApplicationContext(), "사용가능한 전화번호 입니다.", Toast.LENGTH_SHORT).show();
+                            }
+                        }
+
+                        @Override
+                        public void onCancelled(@NonNull DatabaseError error) {
+                            //디비를 가져오던 중 에러 발생 시...
+                        }
+                    });
+                }
+
+            }
+        });
+
+
         //완료 버튼 눌렀을 때
         end.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -109,8 +142,8 @@ public class Join extends AppCompatActivity{
                     }
                     else{
 
-                        if(cnt==0){
-                            Toast.makeText(getApplicationContext(),"아이디 중복을 확인해 주세요.",Toast.LENGTH_SHORT).show();
+                        if(cnt==0 || cnt2==0){
+                            Toast.makeText(getApplicationContext(),"중복을 확인해 주세요.",Toast.LENGTH_SHORT).show();
                         }
                         else {
 
@@ -118,7 +151,7 @@ public class Join extends AppCompatActivity{
                                 Toast.makeText(getApplicationContext(),"이미 존재하는 ID입니다.",Toast.LENGTH_SHORT).show();
                             }
                             else {
-                                signUp(style); // signup success
+                                signUp(); // signup success
                                 Toast.makeText(getApplicationContext(), "회원가입 성공", Toast.LENGTH_LONG).show();
                                 Intent intent = new Intent(Join.this, Login.class); //현재, 이동할 화면
                                 startActivity(intent);
@@ -173,15 +206,15 @@ public class Join extends AppCompatActivity{
         return check;
     }
 
-    private void signUp(String style) {
+    // 회원가입
+    private void signUp() {
         String id=((EditText)findViewById(R.id.EditText)).getText().toString();
         String password=((EditText)findViewById(R.id.PW)).getText().toString();
         String nickname=((EditText)findViewById(R.id.NickName)).getText().toString();
         String phone=Phone.getText().toString();
 
-
-        UserAccount userAccount=new UserAccount(id,password,nickname,phone,style);
+        UserAccount userAccount=new UserAccount(id,password,nickname,phone);
         databaseReference.child("userAccount").child(id).setValue(userAccount);
-
     }
+
 }

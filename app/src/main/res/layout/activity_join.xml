@@ -120,43 +120,40 @@
             </com.google.android.material.textfield.TextInputLayout>
 
             <!--폰번호-->
-            <com.google.android.material.textfield.TextInputLayout
-                style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox"
+            <LinearLayout
                 android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:orientation="vertical"
-                android:layout_marginRight="10dp"
-                android:layout_marginLeft="10dp"
+                android:layout_height="match_parent"
+                android:orientation="horizontal"
+                android:weightSum="10"
                 android:layout_marginBottom="20dp">
 
-                <EditText
-                    android:id="@+id/Phone"
-                    android:layout_width="match_parent"
+                <com.google.android.material.textfield.TextInputLayout
+                    style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox"
+                    android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:hint="전화번호"
-                    android:inputType="number|phone" />
+                    android:layout_marginRight="10dp"
+                    android:layout_marginLeft="10dp"
+                    android:layout_weight="9">
 
-            </com.google.android.material.textfield.TextInputLayout>
-
-
-            <TextView
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_marginLeft="10dp"
-                android:text="선호하는 음식" />
-
-            <Spinner
-                android:id="@+id/spinner"
-                android:layout_width="match_parent"
-                android:layout_height="50dp"
-                android:orientation="vertical"
-                android:layout_marginRight="10dp"
-                android:layout_marginLeft="10dp"
-                android:layout_marginBottom="20dp"
-                android:spinnerMode="dropdown"
-                android:autofillHints="선호하는 식사"
-                android:textColor="@color/black"
-                />
+                    <EditText
+                        android:id="@+id/Phone"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:hint="전화번호"
+                        android:inputType="number|phone" />
+                </com.google.android.material.textfield.TextInputLayout>
+                <!--아이디 중복 버튼-->
+                <Button
+                    android:id="@+id/phone_check"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_weight="1"
+                    android:layout_marginLeft="10dp"
+                    android:layout_marginRight="10dp"
+                    android:background="@drawable/button"
+                    android:text="중복 확인"
+                    app:backgroundTint="@null" />
+            </LinearLayout>
 
             <Button
                 android:id="@+id/end"
@@ -164,7 +161,7 @@
                 android:layout_height="wrap_content"
                 android:background="@drawable/button"
                 android:layout_gravity="center"
-                android:layout_marginTop="15dp"
+                android:layout_marginTop="30dp"
                 android:layout_marginBottom="20dp"
                 app:backgroundTint="@null"
                 android:text="완료"
