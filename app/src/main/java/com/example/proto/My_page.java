@@ -41,7 +41,11 @@ public class My_page extends AppCompatActivity {
     private DatabaseReference databaseReference= FirebaseDatabase.getInstance().getReference();
     TextView name;
     Button add; // 친구추가 버튼
+<<<<<<< HEAD
     Button post;
+=======
+    Button btn_post;
+>>>>>>> 3d3bb76 (11/25 commit 이제 여기서부터 시작하면 됨니다)
     private ActivityResultLauncher<Intent> resultLauncher;
 
 
@@ -87,6 +91,10 @@ public class My_page extends AppCompatActivity {
        //친구목록(리스트뷰) 불러오기
         listView = findViewById(R.id.listView);
 
+<<<<<<< HEAD
+=======
+
+>>>>>>> 3d3bb76 (11/25 commit 이제 여기서부터 시작하면 됨니다)
 
         adapter = new FriendsAdapter(str_id);
         ArrayList<String> items=new ArrayList<>();
@@ -142,7 +150,15 @@ public class My_page extends AppCompatActivity {
             }
         });
 
-            //다음~
+        btn_post = (Button) findViewById(R.id.btn_post);
+        btn_post.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Intent intent=new Intent(My_page.this,Posting.class);
+                intent.putExtra("id",str_id);
+                startActivity(intent);
+            }
+        });
 
         ActivityResultLauncher<Intent> mStartForResult = registerForActivityResult(
                 new ActivityResultContracts.StartActivityForResult(),

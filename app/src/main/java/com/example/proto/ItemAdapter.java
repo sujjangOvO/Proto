@@ -37,10 +37,17 @@ class ItemAdapter extends RecyclerView.Adapter<ItemAdapter.CustomViewHolder>{
     @Override
     // 추가될 때에 대한 생명주기
     public void onBindViewHolder(@NonNull ItemAdapter.CustomViewHolder holder, int position) {
+<<<<<<< HEAD
 //        holder.item_id.setImageResource(arrayList.get(position).getItem_id());
 //        holder.item_title.setText(arrayList.get(position).getItem_title());
 //        holder.item_user.setText(arrayList.get(position).getItem_user());
 //        holder.item_addr.setText(arrayList.get(position).getItem_addr());
+=======
+        //holder.item_id.setImageResource(arrayList.get(position).getItem_id());
+        //holder.item_title.setText(arrayList.get(position).getItem_title());
+        //holder.item_user.setText(arrayList.get(position).getItem_user());
+        //holder.item_addr.setText(arrayList.get(position).getItem_addr());
+>>>>>>> 3d3bb76 (11/25 commit 이제 여기서부터 시작하면 됨니다)
 
         // listview가 클릭이 되었을 때
         holder.itemView.setTag(position);

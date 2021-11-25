@@ -80,7 +80,11 @@ public class List extends AppCompatActivity {
 
     private void prepareData() {
         for (int i = 0; i < 4; i++) {
+<<<<<<< HEAD
 //            arrayList.add(new Item(R.drawable.ic_launcher_background,"제목입니다.","주소입니다.","이름입니다."));
+=======
+            //arrayList.add(new Item(R.drawable.ic_launcher_background,"제목입니다.","주소입니다.","이름입니다."));
+>>>>>>> 3d3bb76 (11/25 commit 이제 여기서부터 시작하면 됨니다)
         }
     }
 

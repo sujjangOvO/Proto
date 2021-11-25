@@ -1,4 +1,8 @@
 package com.example.proto;
+<<<<<<< HEAD
+=======
+
+>>>>>>> 3d3bb76 (11/25 commit 이제 여기서부터 시작하면 됨니다)
 import android.Manifest;
 import android.app.Service;
 import android.content.Context;
