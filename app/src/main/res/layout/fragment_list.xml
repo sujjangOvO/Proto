@@ -35,4 +35,5 @@
         android:scrollbarThumbVertical="@android:color/darker_gray"
         android:scrollbars="vertical">
     </androidx.recyclerview.widget.RecyclerView>
+
 </LinearLayout>

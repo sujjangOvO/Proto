@@ -95,7 +95,8 @@ public class Posting extends AppCompatActivity {
         //사용자 아이디 받아오기
         str_id=getIntent().getStringExtra("id");
 
-        showDialogForLocationServiceSetting();
+        //showDialogForLocationServiceSetting();
+        checkRunTimePermission();
 
         //현재위치 가져오기
         btn_locate.setOnClickListener(new View.OnClickListener() {

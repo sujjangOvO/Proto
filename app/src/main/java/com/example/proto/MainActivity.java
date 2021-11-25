@@ -37,10 +37,8 @@ public class MainActivity extends AppCompatActivity {
         my_page=findViewById(R.id.my_page);
 
 
-        //로그인아이디 받기
+        // 로그인 아이디 받기
         String id=getIntent().getStringExtra("id");
-
-
 
 
         databaseReference.child("userAccount").child(id).child("friends").addValueEventListener(new ValueEventListener() {
@@ -58,12 +56,22 @@ public class MainActivity extends AppCompatActivity {
             }
         });
 
+        // 글 목록 버튼
+        list.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                startActivity(new Intent(MainActivity.this, List.class));
+            }
+        });
+
+        // 글 검색 버튼
         search.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
             }
         });
 
+        // 마이페이지 버튼
         my_page.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {

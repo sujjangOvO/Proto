@@ -13,7 +13,8 @@
 
         <RelativeLayout
             android:layout_width="wrap_content"
-            android:layout_height="150dp">
+            android:layout_height="150dp"
+            android:gravity="center">
 
             <!--프로필 사진-->
             <ImageView
@@ -35,48 +36,17 @@
                 android:layout_marginRight="20dp"
                 android:layout_toRightOf="@id/profile"
                 android:text="User1"
-                android:textSize="25sp"
+                android:textSize="30dp"
                 android:textStyle="bold" />
 
-            <!--지역-->
             <TextView
-                android:id="@+id/location"
+                android:id="@+id/NickName"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:layout_alignParentBottom="true"
-                android:layout_marginLeft="50dp"
-                android:layout_marginRight="20dp"
-                android:layout_marginBottom="30dp"
+                android:layout_below="@id/name"
+                android:layout_marginLeft="30dp"
                 android:layout_toRightOf="@id/profile"
-                android:text="지역\n대구"
-                android:textSize="20sp" />
-
-            <!--선호 음식-->
-            <TextView
-                android:id="@+id/fav_food"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_alignParentBottom="true"
-                android:layout_marginLeft="30dp"
-                android:layout_marginRight="20dp"
-                android:layout_marginBottom="30dp"
-                android:layout_toRightOf="@id/location"
-                android:text="선호\n한식"
-                android:textSize="20sp" />
-
-            <!--친구 수-->
-            <TextView
-                android:id="@+id/friends"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:text="친구\n5명"
-                android:textSize="20sp"
-                android:layout_toRightOf="@id/fav_food"
-                android:layout_marginLeft="30dp"
-                android:layout_alignParentBottom="true"
-                android:layout_marginBottom="30dp"/>
-
-            <!--설정 버튼-->
+                android:text="닉네임" />
 
 
         </RelativeLayout>

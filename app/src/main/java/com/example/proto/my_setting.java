@@ -5,6 +5,7 @@ import androidx.appcompat.app.AppCompatActivity;
 
 import android.content.Context;
 import android.content.DialogInterface;
+import android.content.Intent;
 import android.os.Bundle;
 import android.view.View;
 import android.widget.Button;
@@ -29,6 +30,9 @@ public class my_setting extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_my_setting);
+
+        Intent intent = getIntent();
+        String str_id = intent.getStringExtra("id"); // 현재 id
 
         setName = (EditText) findViewById(R.id.setName);
         setPhone = (EditText) findViewById(R.id.setPhone);
@@ -62,22 +66,12 @@ public class my_setting extends AppCompatActivity {
                         Toast.makeText(getApplicationContext(),"비밀번호를 확인해 주세요.",Toast.LENGTH_SHORT).show();
                     }
                     else{ // 정상반영
-
-                        /*
-                        1. 현재 로그인한 id 가져오기 (uid)
-                        2. 해당 id의 child를 edittext로 변경한다.
-                         */
-
-
-                        databaseReference.child("userAccount").child(uid).child("nickname").setValue(setname);
-
-
-
-
+                        databaseReference.child("userAccount").child(str_id).child("nickname").setValue(setname);
+                        databaseReference.child("userAccount").child(str_id).child("phone").setValue(setphone);
+                        databaseReference.child("userAccount").child(str_id).child("pw").setValue(setpw);
 
                         Toast.makeText(getApplicationContext(),"회원 정보를 성공적으로 변경했습니다.",Toast.LENGTH_SHORT).show();
-                        //transaction.replace(R.id.container, fragment);
-                        //transaction.commit();
+                        finish();
                     }
                 }
             }

@@ -11,6 +11,7 @@ import android.view.ViewGroup;
 import android.widget.AdapterView;
 import android.widget.BaseAdapter;
 import android.widget.Button;
+import android.widget.EditText;
 import android.widget.ListView;
 import android.widget.TextView;
 import android.widget.Toast;
@@ -36,11 +37,11 @@ public class My_page extends AppCompatActivity {
     String str_id;
     private FirebaseDatabase database=FirebaseDatabase.getInstance();
     private DatabaseReference databaseReference= FirebaseDatabase.getInstance().getReference();
-    TextView name;
+    TextView name, NickName;
     Button add; // 친구추가 버튼
-    Button post;
-    Button btn_post;
+    Button btn_post, list;
     private ActivityResultLauncher<Intent> resultLauncher;
+
 
 
     private ListView listView;
@@ -56,11 +57,14 @@ public class My_page extends AppCompatActivity {
         return true;
     }
 
+    // 옵션메뉴
     @Override
     public boolean onOptionsItemSelected(@NonNull MenuItem item) {
         switch (item.getItemId()){
             case R.id.menu1: // 개인정보수정
-                startActivity(new Intent(getApplicationContext(),my_setting.class));
+                Intent intent = new Intent(My_page.this,my_setting.class);
+                intent.putExtra("id",str_id);
+                startActivity(intent);
                 break;
             case R.id.menu2: // 로그아웃
                 startActivity(new Intent(getApplicationContext(),Logout.class));
@@ -72,14 +76,15 @@ public class My_page extends AppCompatActivity {
         return true;
     }
 
+
     @RequiresApi(api = Build.VERSION_CODES.N)
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_my_page);
         str_id = getIntent().getStringExtra("id");
-        TextView search = findViewById(R.id.search);
-
+        TextView search = (TextView) findViewById(R.id.search);
+        Button list = (Button) findViewById(R.id.list);
         setTitle("마이페이지");
 
        //친구목록(리스트뷰) 불러오기
@@ -101,9 +106,26 @@ public class My_page extends AppCompatActivity {
         name = findViewById(R.id.name);
         name.setText(str_id);
 
-        //검색버튼 눌렀을 때
-        add = findViewById(R.id.add_friend);
+        // 닉네임 텍스트 설정
+        NickName = (TextView) findViewById(R.id.NickName);
+        databaseReference.child("userAccount").child(str_id).addValueEventListener(new ValueEventListener() {
+            @Override
+            public void onDataChange(@NonNull DataSnapshot snapshot) {
+                UserAccount userAccount = snapshot.getValue(UserAccount.class);
+                String nickname = userAccount.getNickname();
+                NickName.setText("닉네임 : "+nickname);
+            }
 
+            @Override
+            public void onCancelled(@NonNull DatabaseError error) {
+
+            }
+        });
+
+
+
+        // 친구 검색 버튼 눌렀을 때
+        add = findViewById(R.id.add_friend);
         add.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -138,6 +160,7 @@ public class My_page extends AppCompatActivity {
             }
         });
 
+        // 글쓰기 버튼
         btn_post = (Button) findViewById(R.id.btn_post);
         btn_post.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -180,6 +203,7 @@ public class My_page extends AppCompatActivity {
             }
         });
 
+        /*
         //맛집추가액티비티
         post=findViewById(R.id.btn_post);
         post.setOnClickListener(new View.OnClickListener() {
@@ -189,9 +213,18 @@ public class My_page extends AppCompatActivity {
                 intent.putExtra("id",str_id);
                 startActivity(intent);
             }
+        }); */
+
+        // 글목록 버튼
+        list.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                //startActivity(new Intent(My_page.this, List.class));
+            }
         });
 
-    }
+
+    } // onCreate end
 
     class FriendsAdapter extends BaseAdapter {
 
