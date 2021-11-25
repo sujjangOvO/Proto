@@ -38,6 +38,7 @@ public class My_page extends AppCompatActivity {
     private DatabaseReference databaseReference= FirebaseDatabase.getInstance().getReference();
     TextView name;
     Button add; // 친구추가 버튼
+    Button btn_post;
     private ActivityResultLauncher<Intent> resultLauncher;
 
 
@@ -82,21 +83,6 @@ public class My_page extends AppCompatActivity {
        //친구목록(리스트뷰) 불러오기
         listView = findViewById(R.id.listView);
 
-//        databaseReference.child("userAccount").child(str_id).child("friends").addValueEventListener(new ValueEventListener() {
-//            @Override
-//            public void onDataChange(@NonNull DataSnapshot snapshot) {
-//                for (DataSnapshot fileSnapshot : snapshot.getChildren()) {
-//                    String str = fileSnapshot.child("name").getValue(String.class);
-//                    items.add(str);
-//                }
-//            }
-//
-//            @Override
-//            public void onCancelled(@NonNull DatabaseError error) {
-//
-//            }
-//        });
-//
 
 
         adapter = new FriendsAdapter(str_id);
@@ -157,7 +143,15 @@ public class My_page extends AppCompatActivity {
             }
         });
 
-            //다음~
+        btn_post = (Button) findViewById(R.id.btn_post);
+        btn_post.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Intent intent=new Intent(My_page.this,Posting.class);
+                intent.putExtra("id",str_id);
+                startActivity(intent);
+            }
+        });
 
     }
 }

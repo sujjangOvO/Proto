@@ -3,46 +3,103 @@ package com.example.proto;
 // 맛집 리스트의 각 게시물 DATA
 
 public class Item {
-    private int item_id;
-    private String item_title;
-    private String item_addr;
-    private String item_user;
+    private String title;
+    private String body;
+    private String name;
+    private String address;
+    private String user;
+    private String type;
+    private String score;
+    private String waiting;
+    private String open;
+//    private String open; //0은 친구공개 1은 전체공개임
 
 
-    public Item(int item_id, String item_title, String item_addr, String item_user) {
-        this.item_id = item_id;
-        this.item_title = item_title;
-        this.item_addr = item_addr;
-        this.item_user = item_user;
+    public Item(){}
+
+    public Item(String user, String name, String title,String body, String address, String type, String score,String waiting) {
+        this.user=user;
+        this.name=name;
+        this.title=title;
+        this.body=body;
+        this.address=address;
+        this.type=type;
+        this.score=score;
+        this.waiting=waiting;
+        this.open=null;
     }
 
-    public int getItem_id() { return item_id; }
-
-    public void setItem_id(int item_id) {
-        this.item_id = item_id;
+    public String getOpen() {
+        return open;
     }
 
-    public String getItem_title() {
-        return item_title;
+    public void setOpen(String open) {
+        this.open = open;
     }
 
-    public void setItem_title(String item_title) {
-        this.item_title = item_title;
+    public String getTitle() {
+        return title;
     }
 
-    public String getItem_addr() {
-        return item_addr;
+    public void setTitle(String title) {
+        this.title = title;
     }
 
-    public void setItem_addr(String item_addr) {
-        this.item_addr = item_addr;
+    public String getBody() {
+        return body;
     }
 
-    public String getItem_user() {
-        return item_user;
+    public void setBody(String body) {
+        this.body = body;
     }
 
-    public void setItem_user(String item_user) {
-        this.item_user = item_user;
+    public String getName() {
+        return name;
     }
+
+    public void setName(String name) {
+        this.name = name;
+    }
+
+    public String getAddress() {
+        return address;
+    }
+
+    public void setAddress(String address) {
+        this.address = address;
+    }
+
+    public String getUser() {
+        return user;
+    }
+
+    public void setUser(String user) {
+        this.user = user;
+    }
+
+    public String getType() {
+        return type;
+    }
+
+    public void setType(String type) {
+        this.type = type;
+    }
+
+    public String getScore() {
+        return score;
+    }
+
+    public void setScore(String score) {
+        this.score = score;
+    }
+
+    public String getWaiting() {
+        return waiting;
+    }
+
+    public void setWaiting(String waiting) {
+        this.waiting = waiting;
+    }
+
+
 }
