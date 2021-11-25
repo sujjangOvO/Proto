@@ -48,6 +48,8 @@ public class Posting extends AppCompatActivity {
     Switch aSwitch;
     ImageView photo;
 
+    RadioButton type_btn1, type_btn2, type_btn3, type_btn4, type_btn5, score_btn1, score_btn2, score_btn3, waiting_btn1, waiting_btn2;
+
     private FirebaseDatabase database=FirebaseDatabase.getInstance();
     private DatabaseReference databaseReference= FirebaseDatabase.getInstance().getReference();
     private String str_id;
@@ -77,6 +79,19 @@ public class Posting extends AppCompatActivity {
         btn_locate=findViewById(R.id.btn_locate);
         txt_locate=findViewById(R.id.txt_locate);
 
+        type_btn1 = (RadioButton) findViewById(R.id.type_btn1);
+        type_btn2 = (RadioButton) findViewById(R.id.type_btn2);
+        type_btn3 = (RadioButton) findViewById(R.id.type_btn3);
+        type_btn4 = (RadioButton) findViewById(R.id.type_btn4);
+        type_btn5 = (RadioButton) findViewById(R.id.type_btn5);
+
+        score_btn1 = (RadioButton) findViewById(R.id.score_btn1);
+        score_btn2 = (RadioButton) findViewById(R.id.score_btn2);
+        score_btn3 = (RadioButton) findViewById(R.id.score_btn3);
+
+        waiting_btn1 = (RadioButton) findViewById(R.id.waiting_btn1);
+        waiting_btn2 = (RadioButton) findViewById(R.id.waiting_btn2);
+
         //사용자 아이디 받아오기
         str_id=getIntent().getStringExtra("id");
 
@@ -89,8 +104,6 @@ public class Posting extends AppCompatActivity {
                 gpsTracker=new GpsTracker(Posting.this);
                 double latitude=gpsTracker.getLatitude();
                 double longitude=gpsTracker.getLongitude();
-
-
                 String addr=getCurrentAddress(latitude,longitude);
 
                 txt_locate.setText(addr);
@@ -104,12 +117,24 @@ public class Posting extends AppCompatActivity {
         submit.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                post();
-                finish();
+
+                if(!nullCheck(title) || !nullCheck(body) || !nullCheck(name)){
+                    Toast.makeText(Posting.this,"빈칸을 확인하세요.",Toast.LENGTH_SHORT).show();
+                }
+                else{
+                    post();
+                    finish();
+                }
             }
         });
 
 
+    } // onCreate
+
+    public boolean nullCheck(EditText editText){
+        if(editText.getText().toString().replace(" ", "").equals(""))
+            return false;
+        else return true;
     }
 
     View.OnClickListener onClickListener=new View.OnClickListener(){

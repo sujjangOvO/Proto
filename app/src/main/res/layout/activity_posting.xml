@@ -191,7 +191,8 @@
                         android:textSize="11dp"
                         android:layout_marginRight="3dp"
                         android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"/>
+                        android:layout_height="wrap_content"
+                        android:checked="true"/>
                     <RadioButton
                         android:id="@+id/type_btn2"
                         android:text="중식"
@@ -243,11 +244,12 @@
 
                     <RadioButton
                         android:id="@+id/score_btn1"
+                        android:layout_width="wrap_content"
+                        android:layout_height="match_parent"
+                        android:layout_marginRight="10dp"
                         android:text="아주 좋아요"
                         android:textSize="11dp"
-                        android:layout_marginRight="10dp"
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"/>
+                        android:checked="true"/>
                     <RadioButton
                         android:id="@+id/score_btn2"
                         android:text="먹을만해요"
@@ -289,7 +291,8 @@
                         android:textSize="11dp"
                         android:layout_marginRight="10dp"
                         android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"/>
+                        android:layout_height="wrap_content"
+                        android:checked="true"/>
                     <RadioButton
                         android:id="@+id/waiting_btn2"
                         android:text="NO"

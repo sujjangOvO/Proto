@@ -51,7 +51,6 @@ public class Item {
 
     public void setBody(String body) {
         this.body = body;
-<<<<<<< HEAD
     }
 
     public String getName() {
@@ -102,59 +101,5 @@ public class Item {
         this.waiting = waiting;
     }
 
-
-
-=======
-    }
-
-    public String getName() {
-        return name;
-    }
-
-    public void setName(String name) {
-        this.name = name;
-    }
-
-    public String getAddress() {
-        return address;
-    }
-
-    public void setAddress(String address) {
-        this.address = address;
-    }
-
-    public String getUser() {
-        return user;
-    }
-
-    public void setUser(String user) {
-        this.user = user;
-    }
-
-    public String getType() {
-        return type;
-    }
-
-    public void setType(String type) {
-        this.type = type;
-    }
-
-    public String getScore() {
-        return score;
-    }
-
-    public void setScore(String score) {
-        this.score = score;
-    }
-
-    public String getWaiting() {
-        return waiting;
-    }
-
-    public void setWaiting(String waiting) {
-        this.waiting = waiting;
-    }
-
->>>>>>> 3d3bb76 (11/25 commit 이제 여기서부터 시작하면 됨니다)
 
 }
