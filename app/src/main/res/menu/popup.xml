@@ -9,7 +9,5 @@
     <item
         android:id="@+id/menu2"
         android:title="삭제"/>
-    <item
-        android:id="@+id/menu3"
-        android:title="카카오톡 공유"/>
+
 </menu>

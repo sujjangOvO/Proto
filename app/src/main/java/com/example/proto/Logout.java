@@ -8,14 +8,15 @@ import android.content.DialogInterface;
 import android.content.Intent;
 import android.os.Bundle;
 
+
 public class Logout extends AppCompatActivity {
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.fragment_logout);
+        setContentView(R.layout.activity_logout);
 
-        AlertDialog.Builder dlg = new AlertDialog.Builder(getApplicationContext());
+        AlertDialog.Builder dlg = new AlertDialog.Builder(Logout.this);
 
         dlg.setTitle("로그아웃");
         dlg.setMessage("로그아웃 하시겠습니까?");
@@ -34,6 +35,7 @@ public class Logout extends AppCompatActivity {
                 dialog.cancel();
                 Intent intent = new Intent(getApplicationContext(), My_page.class);
                 startActivity(intent);
+                finish();
             }
         });
 

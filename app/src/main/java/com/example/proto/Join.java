@@ -5,6 +5,10 @@ import androidx.appcompat.app.AppCompatActivity;
 
 import android.content.Intent;
 import android.os.Bundle;
+import android.text.Editable;
+import android.text.InputFilter;
+import android.text.Spanned;
+import android.text.TextWatcher;
 import android.view.View;
 import android.widget.ArrayAdapter;
 import android.widget.Button;
@@ -18,6 +22,8 @@ import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
 import com.google.firebase.database.ValueEventListener;
 import android.util.Log;
+
+import java.util.regex.Pattern;
 
 public class Join extends AppCompatActivity{
 
@@ -35,6 +41,7 @@ public class Join extends AppCompatActivity{
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_join);
+        setTitle("회원가입");
 
         id_check = (Button)findViewById(R.id.id_check);
         end = (Button)findViewById(R.id.end);
@@ -74,15 +81,17 @@ public class Join extends AppCompatActivity{
         id_check.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                cnt=1;
+               // cnt=1;
                 databaseReference.child("userAccount").child(ID.getText().toString()).child("id").addListenerForSingleValueEvent(new ValueEventListener() {
                     @Override
                     public void onDataChange(@NonNull DataSnapshot snapshot) {
                         String value=snapshot.getValue(String.class);
                         if(value!=null){ //이미 존재
                             Toast.makeText(getApplicationContext(),"이미 존재하는 ID입니다",Toast.LENGTH_SHORT).show();
+                            cnt=0; // 0이면 회원가입 불가능
                         }else{
                             Toast.makeText(getApplicationContext(),"사용 가능한 ID입니다",Toast.LENGTH_SHORT).show();
+                            cnt=3; // 0이외 다른값
                         }
                     }
 
@@ -95,38 +104,61 @@ public class Join extends AppCompatActivity{
             }
         });
 
+        // Phone edittext에 입력한 것이 없을 경우 버튼 활성화 X
+        Phone.addTextChangedListener(new TextWatcher() {
+            @Override
+            public void beforeTextChanged(CharSequence s, int start, int count, int after) {
+
+            }
+
+            @Override
+            public void onTextChanged(CharSequence s, int start, int before, int count) {
+
+            }
+
+            @Override
+            public void afterTextChanged(Editable s) {
+                if(s.length()>0){
+                    phone_check.setEnabled(true);
+                }
+                else{
+                    phone_check.setEnabled(false);
+                }
+            }
+        });
 
         // 전화번호 중복 확인 ( 확인해봐야함 )
         phone_check.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-
-                if(ID.getText().toString().equals("") || ID.getText().toString() == null ){
-                    Toast.makeText(getApplicationContext(),"ID를 입력하세요.",Toast.LENGTH_SHORT).show();
-                }
-
-                else {
-                    cnt2 = 1;
-                    databaseReference.child("userAccount").child(ID.getText().toString()).child("phone").addListenerForSingleValueEvent(new ValueEventListener() {
+                    //cnt2=0;
+                    //databaseReference.child("userAccount").child(ID.getText().toString()).child("phone").addListenerForSingleValueEvent(new ValueEventListener() {
+                    databaseReference.child("userAccount").addListenerForSingleValueEvent(new ValueEventListener() {
                         @Override
                         public void onDataChange(@NonNull DataSnapshot snapshot) {
-                            String value = snapshot.getValue(String.class);
-                            if (value != null) { //이미 존재
-                                Toast.makeText(getApplicationContext(), "중복된 전화번호 입니다.", Toast.LENGTH_SHORT).show();
-                            } else {
-                                Toast.makeText(getApplicationContext(), "사용가능한 전화번호 입니다.", Toast.LENGTH_SHORT).show();
+                            for(DataSnapshot dataSnapshot : snapshot.getChildren()) {
+                                UserAccount userAccount = dataSnapshot.getValue(UserAccount.class);
+                                if (userAccount.getPhone().equals(Phone.getText().toString())) { //이미 존재
+                                    Toast.makeText(getApplicationContext(), "중복된 전화번호 입니다.", Toast.LENGTH_SHORT).show();
+                                    cnt2 = 0; // 0이면 회원가입 불가능
+                                    break;
+                                } else {
+                                    cnt2=3; // 0이외값은 가능
+                                }
                             }
-                        }
 
+                        }
                         @Override
                         public void onCancelled(@NonNull DatabaseError error) {
-                            //디비를 가져오던 중 에러 발생 시...
+                            Toast.makeText(getApplicationContext(), "인터넷 연결을 확인하세요.", Toast.LENGTH_SHORT).show();
                         }
                     });
+
+                    if(cnt2 != 0) Toast.makeText(getApplicationContext(), "사용 가능한 전화번호 입니다.", Toast.LENGTH_SHORT).show();
                 }
 
-            }
-        });
+            });
+
 
 
         //완료 버튼 눌렀을 때
@@ -164,9 +196,27 @@ public class Join extends AppCompatActivity{
             }
         });
 
+        // ID 영어, 숫자만 입력받도록
+        ID.setFilters(new InputFilter[] {
+            inputFilter
+        });
 
 
     } //oncreate end
+
+    // ID 영어, 숫자만 입력받도록 필터 설정
+    InputFilter inputFilter = new InputFilter() {
+        @Override
+        public CharSequence filter(CharSequence source, int start, int end, Spanned dest, int dstart, int dend) {
+            Pattern pattern = Pattern.compile("^[a-zA-Z0-9]+$");
+            if(!pattern.matcher(source).matches()){
+                return "";
+            }
+            return null;
+        }
+    };
+
+
 
 
     // pw 확인 함수

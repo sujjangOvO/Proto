@@ -28,19 +28,21 @@ import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
 import com.google.firebase.database.ValueEventListener;
 
+import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.stream.Collectors;
 
-public class My_page extends AppCompatActivity {
+public class My_page extends AppCompatActivity implements Serializable{
 
     String str_id;
     private FirebaseDatabase database=FirebaseDatabase.getInstance();
     private DatabaseReference databaseReference= FirebaseDatabase.getInstance().getReference();
     TextView name, NickName;
     Button add; // 친구추가 버튼
-    Button btn_post, list;
+    Button btn_post, btn_list, btn_bookmark;
     private ActivityResultLauncher<Intent> resultLauncher;
+    List<Item> bookmarkList;
 
 
 
@@ -84,7 +86,6 @@ public class My_page extends AppCompatActivity {
         setContentView(R.layout.activity_my_page);
         str_id = getIntent().getStringExtra("id");
         TextView search = (TextView) findViewById(R.id.search);
-        Button list = (Button) findViewById(R.id.list);
         setTitle("마이페이지");
 
        //친구목록(리스트뷰) 불러오기
@@ -92,7 +93,7 @@ public class My_page extends AppCompatActivity {
         adapter = new FriendsAdapter(str_id);
         ArrayList<String> items=new ArrayList<>();
         items=getIntent().getStringArrayListExtra("items");
-        final List<String> result = items.stream().distinct().collect(Collectors.toList());
+        final List<String> result = items.stream().distinct().collect(Collectors.toList()); // 
         for (String str : result) {
             adapter.addItem(str);
         }
@@ -133,24 +134,34 @@ public class My_page extends AppCompatActivity {
                     @Override
                     public void onDataChange(@NonNull DataSnapshot snapshot) {
                         String value=snapshot.getValue(String.class);
-                        if(value!=null){ //계정 존재
-                            FriendsItem fr=new FriendsItem(search.getText().toString());
-                            databaseReference.child("userAccount").child(str_id).child("friends").child(search.getText().toString()).setValue(fr);
-                            Toast.makeText(My_page.this,"친구가 등록되었습니다",Toast.LENGTH_SHORT).show();
-                            adapter.notifyDataSetChanged();
-                            result.add(search.getText().toString());
-                            adapter = new FriendsAdapter(str_id);
-                            for (String str : result) {
-                                adapter.addItem(str);
-                            }
-                            listView.setAdapter(adapter);
+                        if(value!=null){
 
-                        }else{
+                            if(value.equals(str_id)){ //계정 존재
+
+                                Toast.makeText(My_page.this,"자기 자신은 친구로 등록할 수 없습니다.",Toast.LENGTH_SHORT).show();
+
+                            }else if(result.contains(value)){
+                                Toast.makeText(My_page.this,"이미 친구로 등록되어있습니다.",Toast.LENGTH_SHORT).show();
+                            }else{
+                                FriendsItem fr=new FriendsItem(search.getText().toString());
+                                databaseReference.child("userAccount").child(str_id).child("friends").child(search.getText().toString()).setValue(fr);
+                                Toast.makeText(My_page.this,"친구가 등록되었습니다",Toast.LENGTH_SHORT).show();
+                                adapter.notifyDataSetChanged();
+                                result.add(search.getText().toString());
+                                List<String> tmp=result.stream().distinct().collect(Collectors.toList());
+                                adapter = new FriendsAdapter(str_id);
+                                for (String str : tmp) {
+                                    adapter.addItem(str);
+                                }
+                                listView.setAdapter(adapter);
+                            }
+
+                        }
+                        else{
                             Toast.makeText(My_page.this,"친구 아이디를 확인하세요",Toast.LENGTH_SHORT).show();
                             //계정x
                         }
                     }
-
                     @Override
                     public void onCancelled(@NonNull DatabaseError error) {
 
@@ -159,6 +170,7 @@ public class My_page extends AppCompatActivity {
 
             }
         });
+
 
         // 글쓰기 버튼
         btn_post = (Button) findViewById(R.id.btn_post);
@@ -177,7 +189,7 @@ public class My_page extends AppCompatActivity {
                     if(results.getResultCode() == RESULT_OK) {
                         Intent intent = results.getData();
                         del_id=intent.getStringExtra("del_id");
-//                        Toast.makeText(My_page.this,del_id,Toast.LENGTH_SHORT).show();
+                        //Toast.makeText(My_page.this,del_id,Toast.LENGTH_SHORT).show();
                         //            친구삭제처리
                         result.remove(del_id);
                         adapter = new FriendsAdapter(str_id);
@@ -216,10 +228,41 @@ public class My_page extends AppCompatActivity {
         }); */
 
         // 글목록 버튼
-        list.setOnClickListener(new View.OnClickListener() {
+        btn_list = (Button) findViewById(R.id.list);
+        btn_list.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                //startActivity(new Intent(My_page.this, List.class));
+                Intent intent=new Intent(My_page.this,MyList.class);
+                intent.putExtra("id",str_id);
+                startActivity(intent);
+            }
+        });
+
+        // 북마크 버튼
+        bookmarkList = new ArrayList<Item>();
+        databaseReference.child("bookmark").child(str_id).addValueEventListener(new ValueEventListener() {
+            @Override
+            public void onDataChange(@NonNull DataSnapshot snapshot) {
+                for(DataSnapshot dataSnapshot : snapshot.getChildren()){
+                    Item item=dataSnapshot.getValue(Item.class);
+                    bookmarkList.add(item);
+                }
+            }
+
+            @Override
+            public void onCancelled(@NonNull DatabaseError error) {
+
+            }
+        });
+
+        btn_bookmark=findViewById(R.id.bookmark);
+        btn_bookmark.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Intent intent=new Intent(My_page.this,Bookmark.class);
+                intent.putExtra("id",str_id);
+                intent.putExtra("bookmarkList", (Serializable)bookmarkList);
+                startActivity(intent);
             }
         });
 

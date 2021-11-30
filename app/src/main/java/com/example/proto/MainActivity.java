@@ -7,6 +7,7 @@ import android.content.Intent;
 import android.os.Bundle;
 import android.view.View;
 import android.widget.Button;
+import android.widget.Toast;
 
 import com.google.firebase.database.DataSnapshot;
 import com.google.firebase.database.DatabaseError;
@@ -27,14 +28,24 @@ public class MainActivity extends AppCompatActivity {
     private DatabaseReference databaseReference= FirebaseDatabase.getInstance().getReference();
     private List<String> items = new ArrayList<>();
 
+
+
+    private ArrayList<String> itemWestern= new ArrayList<>();
+    private ArrayList<String> itemKorea= new ArrayList<>();
+    private ArrayList<String> itemChina= new ArrayList<>();
+    private ArrayList<String> itemJapan= new ArrayList<>();
+    private ArrayList<String> itemSom= new ArrayList<>();
+
+    private List<String> item_type=new ArrayList<>();
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
 
-        search=findViewById(R.id.search);
-        list=findViewById(R.id.list);
-        my_page=findViewById(R.id.my_page);
+        search=(Button) findViewById(R.id.search);
+        list=(Button) findViewById(R.id.list);
+        my_page=(Button) findViewById(R.id.my_page);
 
 
         // 로그인 아이디 받기
@@ -56,11 +67,17 @@ public class MainActivity extends AppCompatActivity {
             }
         });
 
+
+
+
+
         // 글 목록 버튼
         list.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                startActivity(new Intent(MainActivity.this, List.class));
+                Intent intent = new Intent(MainActivity.this,listActivity.class);
+                intent.putExtra("id",id);
+                startActivity(intent);
             }
         });
 
@@ -68,6 +85,9 @@ public class MainActivity extends AppCompatActivity {
         search.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
+                Intent intent=new Intent(MainActivity.this, postSearchActivity.class);
+                intent.putExtra("id",id);
+                startActivity(intent);
             }
         });
 

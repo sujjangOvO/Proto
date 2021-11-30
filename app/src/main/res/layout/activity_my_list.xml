@@ -4,8 +4,7 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:orientation="vertical"
-    tools:context=".ListFragment">
+    android:orientation="vertical">
 
     <!--모든 게시물을 볼 수 있는 페이지-->
     <LinearLayout
@@ -21,6 +20,17 @@
             android:layout_margin="10dp"
             android:background="@drawable/edit_round"
             android:spinnerMode="dropdown"/>
+
+        <com.google.android.material.floatingactionbutton.FloatingActionButton
+            android:id="@+id/btn_add"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="5dp"
+            android:layout_marginRight="5dp"
+            android:layout_marginLeft="170dp"
+            android:backgroundTint="@color/purple_200"
+            android:clickable="true"
+            android:src="@drawable/plus" />
 
     </LinearLayout>
 

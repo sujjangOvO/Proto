@@ -11,7 +11,7 @@ import android.view.ViewGroup;
 
 import com.google.android.material.tabs.TabLayout;
 
-public class SearchFragment extends Fragment {
+public class SearchFragment extends Fragment { // 사용X
 
     private TabLayout tabs;
     private ViewPager viewPager;

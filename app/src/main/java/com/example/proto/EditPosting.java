@@ -1,25 +1,22 @@
 package com.example.proto;
 
-
 import android.Manifest;
 import android.content.DialogInterface;
 import android.content.Intent;
 import android.content.pm.PackageManager;
-import android.graphics.Bitmap;
-import android.graphics.BitmapFactory;
 import android.location.Address;
 import android.location.Geocoder;
 import android.location.LocationManager;
 import android.net.Uri;
 import android.os.Bundle;
 import android.provider.MediaStore;
-import android.text.Editable;
-import android.text.TextWatcher;
 import android.util.Log;
+import android.view.MenuItem;
 import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.ImageView;
+import android.widget.PopupMenu;
 import android.widget.RadioButton;
 import android.widget.RadioGroup;
 import android.widget.Switch;
@@ -27,102 +24,126 @@ import android.widget.TextView;
 import android.widget.Toast;
 
 import androidx.annotation.NonNull;
+import androidx.annotation.Nullable;
 import androidx.appcompat.app.AlertDialog;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.core.app.ActivityCompat;
 import androidx.core.content.ContextCompat;
 
-import com.google.android.gms.tasks.Continuation;
-import com.google.android.gms.tasks.OnCompleteListener;
+import com.bumptech.glide.Glide;
 import com.google.android.gms.tasks.OnFailureListener;
 import com.google.android.gms.tasks.OnSuccessListener;
-import com.google.android.gms.tasks.Task;
-import com.google.firebase.auth.FirebaseAuth;
+import com.google.firebase.database.DataSnapshot;
+import com.google.firebase.database.DatabaseError;
 import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
+import com.google.firebase.database.ValueEventListener;
 import com.google.firebase.storage.FirebaseStorage;
 import com.google.firebase.storage.StorageReference;
-import com.google.firebase.storage.UploadTask;
 
 import java.io.IOException;
-import java.io.InputStream;
 import java.util.List;
 import java.util.Locale;
 
-public class Posting extends AppCompatActivity {
-    EditText title;
-    EditText body;
-    EditText name;
-    RadioGroup type;
-    RadioGroup score;
-    RadioGroup waiting;
-    Button submit;
-    Button btn_img;
-    Button btn_locate;
+public class EditPosting extends AppCompatActivity {
+    private FirebaseDatabase database;
+    private DatabaseReference databaseReference;
+
+    String str_id, writer;
+    EditText title, body, name;
+    RadioGroup type, score, waiting;
+    Button submit, img, btn_locate;
     TextView txt_locate;
+    Switch aSwitch;
     ImageView photo;
+    private String title_, addr_, user_,type_,name_,body_,score_,waiting_;
 
+    RadioButton type_btn1, type_btn2, type_btn3, type_btn4, type_btn5, score_btn1, score_btn2, score_btn3, waiting_btn1, waiting_btn2;
 
-    // RadioButton type_btn1, type_btn2, type_btn3, type_btn4, type_btn5, score_btn1, score_btn2, score_btn3, waiting_btn1, waiting_btn2;
-
-    private FirebaseAuth mAuth;
-    private FirebaseDatabase database=FirebaseDatabase.getInstance();
-    private DatabaseReference databaseReference= FirebaseDatabase.getInstance().getReference();
-    private String str_id, posting_title;
     private final int GALLERY_CODE=10;
-    private FirebaseStorage storage;
-    Uri downloadUri;
+    //private FirebaseStorage storage;
 
     private GpsTracker gpsTracker;
     private static final int GPS_ENABLE_REQUEST_CODE=2001;
     private static final int PERMISSIONS_REQUEST_CODE=100;
     String[] REQUIRED_PERMISSIONS  = {Manifest.permission.ACCESS_FINE_LOCATION,
             Manifest.permission.ACCESS_COARSE_LOCATION};
-
-
+    private FirebaseStorage storage;
 
     @Override
-    protected void onCreate(Bundle savedInstanceState) {
+    protected void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_posting);
-        setTitle("게시글 작성");
-        title=(EditText) findViewById(R.id.text_title);
-        body=(EditText) findViewById(R.id.body);
-        name=(EditText) findViewById(R.id.text_name);
-        type=(RadioGroup) findViewById(R.id.group_type);
-        score=(RadioGroup) findViewById(R.id.group_score);
-        waiting=(RadioGroup) findViewById(R.id.group_waiting);
-        photo=(ImageView) findViewById(R.id.photo);
-        btn_img=(Button) findViewById(R.id.btn_img);
-        btn_locate=(Button) findViewById(R.id.btn_locate);
-        txt_locate=(TextView) findViewById(R.id.txt_locate);
+        setTitle("게시글 수정");
 
-        /*
-        type_btn1 = (RadioButton) findViewById(R.id.type_btn1);
-        type_btn2 = (RadioButton) findViewById(R.id.type_btn2);
-        type_btn3 = (RadioButton) findViewById(R.id.type_btn3);
-        type_btn4 = (RadioButton) findViewById(R.id.type_btn4);
-        type_btn5 = (RadioButton) findViewById(R.id.type_btn5);
-
-        score_btn1 = (RadioButton) findViewById(R.id.score_btn1);
-        score_btn2 = (RadioButton) findViewById(R.id.score_btn2);
-        score_btn3 = (RadioButton) findViewById(R.id.score_btn3);
-
-        waiting_btn1 = (RadioButton) findViewById(R.id.waiting_btn1);
-        waiting_btn2 = (RadioButton) findViewById(R.id.waiting_btn2); */
-
-        mAuth = FirebaseAuth.getInstance();
+        databaseReference = FirebaseDatabase.getInstance().getReference();
+        database = FirebaseDatabase.getInstance();
         storage = FirebaseStorage.getInstance();
-        //사용자 아이디 받아오기
-        str_id=getIntent().getStringExtra("id");
 
-        checkRunTimePermission();
+
+        //EditTExt 설정
+        title = (EditText) findViewById(R.id.text_title);
+        body =  (EditText)findViewById(R.id.body);
+        name = (EditText)findViewById(R.id.text_name);
+        txt_locate =  (TextView)findViewById(R.id.txt_locate);
+        type=(RadioGroup)findViewById(R.id.group_type);
+        score=(RadioGroup)findViewById(R.id.group_score);
+        waiting=(RadioGroup)findViewById(R.id.group_waiting);
+        photo=(ImageView)findViewById(R.id.photo);
+        img=(Button)findViewById(R.id.btn_img);
+        btn_locate=(Button)findViewById(R.id.btn_locate);
+
+        // listactivity에서 받아오기
+        Intent intent2 = getIntent();
+
+        title_ = intent2.getStringExtra("title");
+        addr_ = intent2.getStringExtra("addr");
+        str_id = intent2.getStringExtra("user_id");
+        writer = intent2.getStringExtra("writer");
+        name_=intent2.getStringExtra("name");
+        body_=intent2.getStringExtra("body");
+
+        title.setText(title_);
+        txt_locate.setText(addr_);
+        body.setText(body_);
+        name.setText(name_);
+
+        // 사진 edit 불가
+        img.setEnabled(false);
+        // 제목 edit 불가 =>사진 경로 때문에
+        title.setEnabled(false);
+
+        // firebase storage에서 사진(사진 이름은 user id + title ) 불러오기
+        database = FirebaseDatabase.getInstance();
+        FirebaseStorage firebaseStorage = FirebaseStorage.getInstance();
+        StorageReference storageReference =  firebaseStorage.getReference();
+        StorageReference pathReference = storageReference.child("photo");
+        if(pathReference == null){
+            Toast.makeText(EditPosting.this,"등록된 사진이 없습니다.",Toast.LENGTH_SHORT).show();
+        }
+        else{
+            String storagePath = writer+title_;
+            Log.i("EditPosting ",storagePath);
+            StorageReference imgReference = storageReference.child("photo/"+storagePath+".png");
+            imgReference.getDownloadUrl().addOnSuccessListener(new OnSuccessListener<Uri>() {
+                @Override
+                public void onSuccess(Uri uri) {
+                    Glide.with(EditPosting.this).load(uri).into(photo);
+                }
+            }).addOnFailureListener(new OnFailureListener() {
+                @Override
+                public void onFailure(@NonNull Exception e) {
+                    Toast.makeText(EditPosting.this,"등록된 사진이 없습니다.",Toast.LENGTH_SHORT).show();
+                }
+            });
+        }
+
 
         //현재위치 가져오기
         btn_locate.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                gpsTracker=new GpsTracker(Posting.this);
+                gpsTracker=new GpsTracker(EditPosting.this);
                 double latitude=gpsTracker.getLatitude();
                 double longitude=gpsTracker.getLongitude();
                 String addr=getCurrentAddress(latitude,longitude);
@@ -132,59 +153,17 @@ public class Posting extends AppCompatActivity {
             }
         });
 
-        // 타이틀이 0글자면 사진등록버튼 활성화x
-        title.addTextChangedListener(new TextWatcher() {
-            @Override
-            public void beforeTextChanged(CharSequence s, int start, int count, int after) {
-
-            }
-
-            @Override
-            public void onTextChanged(CharSequence s, int start, int before, int count) {
-
-            }
-
-            @Override
-            public void afterTextChanged(Editable s) {
-                if(s.length()>0){
-                    btn_img.setEnabled(true);
-                }
-                else{
-                    btn_img.setEnabled(false);
-                }
-            }
-        });
-        // 사진 등록 버튼
-        btn_img.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                Intent intent = new Intent(Intent.ACTION_PICK);
-                intent.setType(MediaStore.Images.Media.CONTENT_TYPE); // 갤러리 액티비티로 이동
-                startActivityForResult(intent,GALLERY_CODE);
-            }
-        });
-
-
-
         //작성 완료 버튼 이벤트
         submit=findViewById(R.id.btn_submit);
         submit.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-
-                if(!nullCheck(title) || !nullCheck(body) || !nullCheck(name)){
-                    Toast.makeText(Posting.this,"빈칸을 확인하세요.",Toast.LENGTH_SHORT).show();
-                }
-                else{
-                    post();
-                    Toast.makeText(Posting.this,"글을 성공적으로 등록하였습니다.",Toast.LENGTH_SHORT).show();
-                    finish();
-                }
+                post();
+                finish();
             }
         });
 
-
-    } // onCreate
+    } // onCreate end
 
     public boolean nullCheck(EditText editText){
         if(editText.getText().toString().replace(" ", "").equals(""))
@@ -192,8 +171,26 @@ public class Posting extends AppCompatActivity {
         else return true;
     }
 
+    // OnClickListener 커스텀
+    View.OnClickListener onClickListener=new View.OnClickListener(){
+        @Override
+        public void onClick(View v) {
+            switch (v.getId()){
+                case R.id.btn_img:
+                    loadAlbum();
+                    break;
+            }
+        }
+    };
+
+    private void loadAlbum(){
+        Intent intent=new Intent(Intent.ACTION_PICK);
+        intent.setType(MediaStore.Images.Media.CONTENT_TYPE);
+        startActivity(intent);
+    }
 
     private void post(){
+//        String str_id = user_;
         String str_title=title.getText().toString();
         String str_body=body.getText().toString();
         String str_name=name.getText().toString();
@@ -213,25 +210,40 @@ public class Posting extends AppCompatActivity {
 
 
 
-        Item item= new Item(str_id,str_name,str_title,str_body,txt_locate.getText().toString(),
-                str_type,str_score,str_waiting);
-//        aSwitch.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {
-//            @Override
-//            public void onCheckedChanged(CompoundButton buttonView, boolean isChecked) {
-//                if(isChecked){
-//                    //전체공개
-//                    item.setOpen("1");
-//                }else{
-//                    //친구공개
-//                    item.setOpen("0");
-//                }
-//            }
-//        });
-        databaseReference.child("postList").push().setValue(item);
-        //Toast.makeText(getApplicationContext(),"글을 성공적으로 등록하였습니다.",Toast.LENGTH_SHORT).show();
+//        Item item= new Item(str_id,str_name,str_title,str_body,txt_locate.getText().toString(),str_type,str_score,str_waiting);
+
+//        databaseReference.child("postList").push().setValue(item);
+
+        databaseReference.child("postList").orderByChild("title").equalTo(title_).addListenerForSingleValueEvent(new ValueEventListener() { //                        @Override
+            public void onDataChange(@NonNull DataSnapshot snapshot) {
+                for(DataSnapshot datas: snapshot.getChildren()){
+                    String snapshotKey=datas.getKey();
+                    if(snapshotKey!=null) {
+                        databaseReference.child("postList").child(snapshotKey).child("name").setValue(str_name);
+                        databaseReference.child("postList").child(snapshotKey).child("title").setValue(str_title);
+                        databaseReference.child("postList").child(snapshotKey).child("body").setValue(str_body);
+                        databaseReference.child("postList").child(snapshotKey).child("score").setValue(str_score);
+                        databaseReference.child("postList").child(snapshotKey).child("type").setValue(str_type);
+                        databaseReference.child("postList").child(snapshotKey).child("waiting").setValue(str_waiting);
+                        databaseReference.child("postList").child(snapshotKey).child("address").setValue(txt_locate.getText().toString());
+
+                        Toast.makeText(getApplicationContext(),"글을 성공적으로 수정하였습니다.",Toast.LENGTH_SHORT).show();
+                        finish();
+
+                    }
+                }
+                startActivity(new Intent(getApplicationContext(),listActivity.class));
+            }
+
+            @Override
+            public void onCancelled(@NonNull DatabaseError error) {
+
+            }
+        });
+
+
+
     }
-
-
 
     @Override
     public void onRequestPermissionsResult(int permsRequestCode,
@@ -242,6 +254,7 @@ public class Posting extends AppCompatActivity {
         if (permsRequestCode == PERMISSIONS_REQUEST_CODE && grandResults.length == REQUIRED_PERMISSIONS.length) {
 
             // 요청 코드가 PERMISSIONS_REQUEST_CODE 이고, 요청한 퍼미션 개수만큼 수신되었다면
+
             boolean check_result = true;
 
 
@@ -265,13 +278,13 @@ public class Posting extends AppCompatActivity {
                 if (ActivityCompat.shouldShowRequestPermissionRationale(this, REQUIRED_PERMISSIONS[0])
                         || ActivityCompat.shouldShowRequestPermissionRationale(this, REQUIRED_PERMISSIONS[1])) {
 
-                    Toast.makeText(Posting.this, "퍼미션이 거부되었습니다. 앱을 다시 실행하여 퍼미션을 허용해주세요.", Toast.LENGTH_LONG).show();
+                    Toast.makeText(EditPosting.this, "퍼미션이 거부되었습니다. 앱을 다시 실행하여 퍼미션을 허용해주세요.", Toast.LENGTH_LONG).show();
                     finish();
 
 
                 } else {
 
-                    Toast.makeText(Posting.this, "퍼미션이 거부되었습니다. 설정(앱 정보)에서 퍼미션을 허용해야 합니다. ", Toast.LENGTH_LONG).show();
+                    Toast.makeText(EditPosting.this, "퍼미션이 거부되었습니다. 설정(앱 정보)에서 퍼미션을 허용해야 합니다. ", Toast.LENGTH_LONG).show();
 
                 }
             }
@@ -283,9 +296,9 @@ public class Posting extends AppCompatActivity {
 
         //런타임 퍼미션 처리
         // 1. 위치 퍼미션을 가지고 있는지 체크합니다.
-        int hasFineLocationPermission = ContextCompat.checkSelfPermission(Posting.this,
+        int hasFineLocationPermission = ContextCompat.checkSelfPermission(EditPosting.this,
                 Manifest.permission.ACCESS_FINE_LOCATION);
-        int hasCoarseLocationPermission = ContextCompat.checkSelfPermission(Posting.this,
+        int hasCoarseLocationPermission = ContextCompat.checkSelfPermission(EditPosting.this,
                 Manifest.permission.ACCESS_COARSE_LOCATION);
 
 
@@ -303,19 +316,19 @@ public class Posting extends AppCompatActivity {
         } else {  //2. 퍼미션 요청을 허용한 적이 없다면 퍼미션 요청이 필요합니다. 2가지 경우(3-1, 4-1)가 있습니다.
 
             // 3-1. 사용자가 퍼미션 거부를 한 적이 있는 경우에는
-            if (ActivityCompat.shouldShowRequestPermissionRationale(Posting.this, REQUIRED_PERMISSIONS[0])) {
+            if (ActivityCompat.shouldShowRequestPermissionRationale(EditPosting.this, REQUIRED_PERMISSIONS[0])) {
 
                 // 3-2. 요청을 진행하기 전에 사용자가에게 퍼미션이 필요한 이유를 설명해줄 필요가 있습니다.
-                Toast.makeText(Posting.this, "이 앱을 실행하려면 위치 접근 권한이 필요합니다.", Toast.LENGTH_LONG).show();
+                Toast.makeText(EditPosting.this, "이 앱을 실행하려면 위치 접근 권한이 필요합니다.", Toast.LENGTH_LONG).show();
                 // 3-3. 사용자게에 퍼미션 요청을 합니다. 요청 결과는 onRequestPermissionResult에서 수신됩니다.
-                ActivityCompat.requestPermissions(Posting.this, REQUIRED_PERMISSIONS,
+                ActivityCompat.requestPermissions(EditPosting.this, REQUIRED_PERMISSIONS,
                         PERMISSIONS_REQUEST_CODE);
 
 
             } else {
                 // 4-1. 사용자가 퍼미션 거부를 한 적이 없는 경우에는 퍼미션 요청을 바로 합니다.
                 // 요청 결과는 onRequestPermissionResult에서 수신됩니다.
-                ActivityCompat.requestPermissions(Posting.this, REQUIRED_PERMISSIONS,
+                ActivityCompat.requestPermissions(EditPosting.this, REQUIRED_PERMISSIONS,
                         PERMISSIONS_REQUEST_CODE);
             }
 
@@ -364,7 +377,7 @@ public class Posting extends AppCompatActivity {
     // GPS활성화 함수들
     private void showDialogForLocationServiceSetting() {
 
-        AlertDialog.Builder builder = new AlertDialog.Builder(Posting.this);
+        AlertDialog.Builder builder = new AlertDialog.Builder(EditPosting.this);
         builder.setTitle("위치 서비스 비활성화");
         builder.setMessage("앱을 사용하기 위해서는 위치 서비스가 필요합니다.\n"
                 + "위치 설정을 수정하실래요?");
@@ -394,10 +407,6 @@ public class Posting extends AppCompatActivity {
     protected void onActivityResult(int requestCode, int resultCode, Intent data) {
         super.onActivityResult(requestCode, resultCode, data);
 
-        if(resultCode!=RESULT_OK) {
-            Toast.makeText(getApplicationContext(), "사진 업로드 실패", Toast.LENGTH_SHORT).show();
-        }
-
         switch (requestCode) {
 
             case GPS_ENABLE_REQUEST_CODE:
@@ -413,60 +422,6 @@ public class Posting extends AppCompatActivity {
                 }
 
                 break;
-
-            case GALLERY_CODE: // 갤러리에서 받아온 사진 storage에 저장하기
-                try {
-                    Uri file = data.getData();
-                    posting_title = title.getText().toString();
-                    String filePath = str_id + posting_title;
-                    StorageReference storageReference = storage.getReference();
-                    StorageReference riversRef = storageReference.child("photo/" + filePath + ".png");
-                    UploadTask uploadTask = riversRef.putFile(file); // 파일 upload
-
-                    // 이미지 url Item에 등록하려는거 시도한 흔적
-                    /*
-                    Task<Uri> uriTask = uploadTask.continueWithTask(new Continuation<UploadTask.TaskSnapshot, Task<Uri>>() {
-                        @Override
-                        public Task<Uri> then(@NonNull Task<UploadTask.TaskSnapshot> task) throws Exception {
-                            if (!task.isSuccessful()) {
-                                throw task.getException();
-                            }
-                            return riversRef.getDownloadUrl();
-                        }
-                    }).addOnCompleteListener(new OnCompleteListener<Uri>() {
-                        @Override
-                        public void onComplete(@NonNull Task<Uri> task) {
-                            if (task.isSuccessful()) {
-                                downloadUri = task.getResult();
-                            }
-                        }
-                    }); */
-
-
-                try{
-                    InputStream inputStream = getContentResolver().openInputStream(data.getData());
-                    Bitmap bitmap = BitmapFactory.decodeStream(inputStream);
-                    inputStream.close();
-                    photo.setImageBitmap(bitmap);
-                }catch (Exception e){
-                    e.printStackTrace();
-                }
-                uploadTask.addOnFailureListener(new OnFailureListener() {
-                    @Override
-                    public void onFailure(@NonNull Exception e) {
-                        Toast.makeText(getApplicationContext(),"사진 업로드 실패",Toast.LENGTH_SHORT).show();
-                    }
-                }).addOnSuccessListener(new OnSuccessListener<UploadTask.TaskSnapshot>() {
-                    @Override
-                    public void onSuccess(UploadTask.TaskSnapshot taskSnapshot) {
-                        Toast.makeText(getApplicationContext(),"사진 업로드 성공",Toast.LENGTH_SHORT).show();
-                    }
-                });
-                }
-                catch (NullPointerException e){
-                    Toast.makeText(Posting.this,"이미지 선택 안함",Toast.LENGTH_SHORT).show();
-                }
-                break;
         }
     }
 
@@ -478,6 +433,3 @@ public class Posting extends AppCompatActivity {
     }
 
 }
-
-
-

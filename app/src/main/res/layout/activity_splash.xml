@@ -19,10 +19,10 @@
         android:id="@+id/appName"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:text="App name"
+        android:text="밥의민족"
         android:layout_gravity="center"
         android:layout_marginTop="20dp"
-        android:textSize="15sp"
+        android:textSize="45dp"
         android:textStyle="bold"
         android:textColor="#9B59B6"/>
 

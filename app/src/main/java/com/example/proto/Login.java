@@ -90,6 +90,7 @@ public class Login extends AppCompatActivity {
                     Intent intent = new Intent(Login.this, MainActivity.class); //현재, 이동할 화면
                     intent.putExtra("id",ID.getText().toString());//사용자 아이디 전달
                     startActivity(intent);
+                    finish();
                 }else{
                     Toast.makeText(getApplicationContext(),"아이디 혹은 비밀번호를 확인하세요",Toast.LENGTH_SHORT).show();
                 }

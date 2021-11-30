@@ -66,39 +66,50 @@
 
         </RelativeLayout>
 
-        <!--맛집 목록-->
-        <LinearLayout
+        <ListView
+            android:id="@+id/rv"
             android:layout_width="match_parent"
-            android:layout_height="match_parent"
-            android:orientation="vertical"
-            android:background="@drawable/my_page_list"
-            android:layout_marginTop="30dp"
-            android:layout_marginLeft="10dp"
-            android:layout_marginRight="10dp"
-            android:layout_marginBottom="10dp">
+            android:layout_height="450dp"
+            android:layout_weight="1"
+            android:scrollbarFadeDuration="0"
+            android:scrollbarSize="5dp"
+            android:scrollbarThumbVertical="@android:color/darker_gray"
+            android:scrollbars="vertical">
+        </ListView>
 
-            <RelativeLayout
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content">
+        <!--맛집 목록-->
+        <!--        <LinearLayout-->
+        <!--            android:layout_width="match_parent"-->
+        <!--            android:layout_height="match_parent"-->
+        <!--            android:orientation="vertical"-->
+        <!--            android:background="@drawable/my_page_list"-->
+        <!--            android:layout_marginTop="30dp"-->
+        <!--            android:layout_marginLeft="10dp"-->
+        <!--            android:layout_marginRight="10dp"-->
+        <!--            android:layout_marginBottom="10dp">-->
 
-                <!--프로필 사진-->
+        <!--            <RelativeLayout-->
+        <!--                android:layout_width="wrap_content"-->
+        <!--                android:layout_height="wrap_content">-->
 
-                <TextView
-                    android:id="@+id/list_friend"
-                    android:layout_width="150dp"
-                    android:layout_height="wrap_content"
-                    android:layout_alignParentLeft="true"
-                    android:layout_marginLeft="10dp"
-                    android:layout_marginTop="5dp"
-                    android:text="맛집 리스트"
-                    android:textSize="20dp" />
+        <!--                &lt;!&ndash;프로필 사진&ndash;&gt;-->
 
-            </RelativeLayout>
+        <!--                <TextView-->
+        <!--                    android:id="@+id/list_friend"-->
+        <!--                    android:layout_width="150dp"-->
+        <!--                    android:layout_height="wrap_content"-->
+        <!--                    android:layout_alignParentLeft="true"-->
+        <!--                    android:layout_marginLeft="10dp"-->
+        <!--                    android:layout_marginTop="5dp"-->
+        <!--                    android:text="맛집 리스트"-->
+        <!--                    android:textSize="20dp" />-->
 
-            <ListView
-                android:layout_width="wrap_content"
-                android:layout_height="match_parent"
-                android:layout_marginBottom="20dp" />
-        </LinearLayout>
+        <!--            </RelativeLayout>-->
+
+        <!--            <ListView-->
+        <!--                android:layout_width="wrap_content"-->
+        <!--                android:layout_height="match_parent"-->
+        <!--                android:layout_marginBottom="20dp" />-->
+        <!--        </LinearLayout>-->
     </LinearLayout>
 </ScrollView>

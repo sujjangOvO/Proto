@@ -2,12 +2,12 @@
 <manifest xmlns:android="http://schemas.android.com/apk/res/android"
     package="com.example.proto">
 
-    <uses-permission
-        android:name="android.permission.ACCESS_COARSE_LOCATION" />
     <uses-permission android:name="android.permission.INTERNET" />
     <uses-permission android:name="android.permission.ACCESS_COARSE_LOCATION" />
-    <uses-permission android:name="android.permission.ACCESS_FINE_LOCATION"/>
+    <uses-permission android:name="android.permission.ACCESS_FINE_LOCATION" />
     <uses-permission android:name="android.permission.ACCESS_BACKGROUND_LOCATION" />
+    <uses-permission android:name="android.permission.READ_EXTERNAL_STORAGE" />
+    <uses-permission android:name="android.permission.WRITE_EXTERNAL_STORAGE" />
 
     <application
         android:allowBackup="true"
@@ -18,8 +18,20 @@
         android:theme="@style/Theme.Proto"
         android:usesCleartextTraffic="true">
         <activity
-            android:name=".Write"
-            android:exported="true" />
+            android:name=".BookmarkDetail"
+            android:exported="false" />
+        <activity
+            android:name=".Bookmark"
+            android:exported="false" />
+        <activity
+            android:name=".EditPosting"
+            android:exported="false" />
+        <activity
+            android:name=".MyList"
+            android:exported="false" />
+        <activity
+            android:name=".postSearchActivity"
+            android:exported="false" />
         <activity
             android:name=".my_setting"
             android:exported="false" />
@@ -53,8 +65,10 @@
         <activity android:name=".ListDetail" />
         <activity android:name=".MainActivity" />
         <activity android:name=".Posting" />
-        <activity android:name=".Daccount" />
-
+        <activity
+            android:name=".Daccount"
+            android:exported="true" />
+        <activity android:name=".listActivity" />
     </application>
 
 </manifest>
